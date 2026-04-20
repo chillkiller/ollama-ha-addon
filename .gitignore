@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.log
+
+# Ollama data
+/data/.ollama/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Environment and secrets
+.env
+.env.local
+*.secret
+*.key
+*.pem

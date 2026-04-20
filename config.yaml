@@ -1,0 +1,74 @@
+name: "Ollama"
+description: "Ollama - LLM-Server mit Cloud-Integration"
+version: "1.0.0"
+slug: "ollama"
+url: "https://github.com/chillkiller/ollama-ha-addon"
+init: false
+startup: service
+boot: auto
+arch:
+  - aarch64
+  - amd64
+ingress: false
+panel_icon: "mdi:brain"
+host_network: false
+host_ipc: false
+host_pid: false
+ports:
+  11434/tcp: 11434
+ports_description:
+  11434/tcp: "Ollama API"
+map:
+  - config:rw
+  - share:rw
+services:
+  - mysql:want
+  - postgresql:want
+options:
+  ollama_cloud:
+    enabled: false
+    email: ""
+    password: ""
+    api_key: ""
+  models:
+    default_model: ""
+    auto_pull: []
+    keep_loaded: []
+  gpu:
+    enabled: false
+    device: ""
+  network:
+    host: "127.0.0.1"
+    port: 11434
+    ollama_host: "127.0.0.1"
+  advanced:
+    ollama_num_parallel: 1
+    ollama_num_queue: 512
+    ollama_load_timeout: 5m
+    ollama_run_dir: ""
+    debug: false
+schema:
+  ollama_cloud:
+    enabled: bool
+    email: str
+    password: password
+    api_key: password
+  models:
+    default_model: str
+    auto_pull:
+      - str
+    keep_loaded:
+      - str
+  gpu:
+    enabled: bool
+    device: str
+  network:
+    host: str
+    port: int
+    ollama_host: str
+  advanced:
+    ollama_num_parallel: int
+    ollama_num_queue: int
+    ollama_load_timeout: str
+    ollama_run_dir: str
+    debug: bool
