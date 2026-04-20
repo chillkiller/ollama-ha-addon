@@ -1,25 +1,41 @@
 # Ollama Home Assistant Add-on
 
-Ein professionelles Home Assistant Add-on für Ollama mit Cloud-Integration.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io)
+[![Ollama](https://img.shields.io/badge/Ollama-v0.21.0-orange.svg)](https://ollama.com)
+[![Architecture](https://img.shields.io/badge/Arch-aarch64%20%7C%20amd64-green.svg)](https://github.com/chillkiller/ollama-ha-addon)
 
-## Features
+A professional Home Assistant add-on for running [Ollama](https://ollama.com) with native cloud integration and advanced configuration options.
 
-- **Aktuelle Ollama-Version**: v0.21.0 mit allen aktuellen Fixes und Performance-Optimierungen
-- **Cloud-Integration**: Native Ollama Cloud-Authentifizierung (API-Key oder E-Mail/Passwort)
-- **Modell-Management**: Automatisches Pullen und Laden von Modellen
-- **Flexible Konfiguration**: Umfassende Optionen über das Home Assistant UI
+## ✨ Features
 
-## Installation
+- 🚀 **Latest Ollama Version** - v0.21.0 with all current fixes and performance optimizations
+- ☁️ **Cloud Integration** - Native Ollama Cloud authentication (API key or email/password)
+- 🤖 **Model Management** - Automatic pulling and loading of models
+- ⚙️ **Flexible Configuration** - Comprehensive options via Home Assistant UI
+- 🔒 **Security Hardened** - Credential protection, no command-line exposure, secure cleanup
+- 🎮 **GPU Support** - NVIDIA, Intel, and AMD GPU acceleration (Supervised only)
+- 🌐 **Network Isolation** - Default localhost binding for maximum security
 
-1. Füge dieses Repository zu Home Assistant hinzu:
-   ```
-   https://github.com/chillkiller/ollama-ha-addon
-   ```
-2. Installiere "Ollama" aus dem Add-on Store
-3. Konfiguriere das Add-on nach deinen Anforderungen
-4. Starte das Add-on
+## 📦 Installation
 
-## Konfiguration
+### Add Repository
+
+1. Open Home Assistant
+2. Go to **Settings** → **Add-ons** → **Add-on Store**
+3. Click the three dots menu (⋮) → **Add-ons**
+4. Select **Add repository**
+5. Enter: `https://github.com/chillkiller/ollama-ha-addon`
+6. Click **Add**
+
+### Install Add-on
+
+1. Find "Ollama" in the add-on store
+2. Click **Install**
+3. Configure the add-on (see Configuration below)
+4. Click **Start**
+
+## ⚙️ Configuration
 
 ### Ollama Cloud
 
@@ -31,9 +47,9 @@ ollama_cloud:
   api_key: "your-api-key"
 ```
 
-**Empfehlung:** Verwende API-Keys statt E-Mail/Passwort für höhere Sicherheit.
+**Recommendation:** Use API keys instead of email/password for better security.
 
-### Modell-Management
+### Model Management
 
 ```yaml
 models:
@@ -45,7 +61,7 @@ models:
     - "llama3"
 ```
 
-### GPU-Unterstützung
+### GPU Support
 
 ```yaml
 gpu:
@@ -53,9 +69,9 @@ gpu:
   device: ""
 ```
 
-**Hinweis:** GPU-Unterstützung erfordert Home Assistant Supervised mit konfiguriertem NVIDIA Container Toolkit oder Intel/AMD GPU-Treibern auf dem Host.
+**Note:** GPU support requires Home Assistant Supervised with configured NVIDIA Container Toolkit or Intel/AMD GPU drivers on the host.
 
-### Netzwerk
+### Network
 
 ```yaml
 network:
@@ -64,9 +80,9 @@ network:
   ollama_host: "127.0.0.1"
 ```
 
-**Sicherheitshinweis:** Standardmäßig lauscht Ollama nur auf localhost. Ändere `host` nur, wenn du externen Zugriff benötigst.
+**Security Note:** By default, Ollama only listens on localhost. Only change `host` if you need external access.
 
-### Erweiterte Optionen
+### Advanced Options
 
 ```yaml
 advanced:
@@ -77,39 +93,84 @@ advanced:
   debug: false
 ```
 
-## Ports
+## 🔌 Ports
 
-- **11434/tcp**: Ollama API
+| Port | Protocol | Description |
+|------|----------|-------------|
+| 11434 | TCP | Ollama API |
 
-## Sicherheit
+## 🔒 Security
 
-- **Passwörter** werden verschlüsselt in der HA-Konfiguration gespeichert (password-Typ in schema)
-- **API-Keys** werden als password-Felder behandelt
-- **Login-Prozess** verwendet Umgebungsdateien statt Kommandozeilenparameter (verhindert /proc-Lecks)
-- **Netzwerk** ist standardmäßig auf localhost beschränkt
-- **Cleanup** der temporären Authentifizierungsdateien nach Gebrauch
+This add-on implements several security best practices:
 
-## GPU-Unterstützung in Home Assistant
+- **Credential Protection:** Passwords and API keys are stored as `password` type fields in Home Assistant's configuration
+- **No Command-Line Exposure:** Cloud authentication uses environment files instead of command-line parameters to prevent `/proc/<pid>/cmdline` leaks
+- **Secure Cleanup:** Temporary authentication files are immediately removed after use
+- **Network Isolation:** Default binding to `127.0.0.1` to prevent external exposure
+- **Minimal Dependencies:** Only essential packages are installed in the container
+
+## 🎮 GPU Support
 
 | Feature | HAOS | Supervised |
 |---------|------|------------|
-| NVIDIA GPU | Nicht unterstützt | Unterstützt (Host-Treiber + NVIDIA Container Toolkit) |
-| Intel iGPU | Begrenzt (VA-API) | Unterstützt |
-| AMD GPU (ROCm) | Nicht unterstützt | Unterstützt (Host-Treiber) |
+| NVIDIA GPU | Not supported | Supported (Host drivers + NVIDIA Container Toolkit) |
+| Intel iGPU | Limited (VA-API) | Supported |
+| AMD GPU (ROCm) | Not supported | Supported (Host drivers) |
 
-Für GPU-Unterstützung wird **Home Assistant Supervised** auf einem Host mit den entsprechenden Treibern empfohlen.
+For GPU support, **Home Assistant Supervised** on a host with the appropriate drivers is recommended.
 
-## Lizenz
+## 📚 Usage Examples
 
-MIT License
+### Basic Model Query
 
-## Support
+```bash
+curl http://localhost:11434/api/generate -d '{
+  "model": "llama3",
+  "prompt": "Why is the sky blue?"
+}'
+```
 
-- [Ollama Dokumentation](https://docs.ollama.com)
+### List Available Models
+
+```bash
+curl http://localhost:11434/api/tags
+```
+
+### Pull a New Model
+
+```bash
+curl http://localhost:11434/api/pull -d '{
+  "name": "mistral"
+}'
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🔗 Links
+
+- [Ollama Documentation](https://docs.ollama.com)
+- [Home Assistant Add-ons](https://www.home-assistant.io/add-ons/)
 - [GitHub Issues](https://github.com/chillkiller/ollama-ha-addon/issues)
+- [Security Policy](SECURITY.md)
 
-## Version
+## 📊 Version Information
 
-- **Add-on Version**: 1.0.0
-- **Ollama Version**: v0.21.0
-- **Base Image**: Debian Trixie
+- **Add-on Version:** 1.0.0
+- **Ollama Version:** v0.21.0
+- **Base Image:** Debian Trixie
+
+## 🙏 Acknowledgments
+
+- [Ollama](https://ollama.com) - The amazing LLM runtime
+- [Home Assistant](https://www.home-assistant.io) - The open-source home automation platform
+- All contributors and users who provide feedback and suggestions
+
+---
+
+Made with ❤️ by [Christoph Becelewski](https://github.com/chillkiller)
