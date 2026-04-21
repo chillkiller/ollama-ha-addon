@@ -146,7 +146,7 @@ curl http://localhost:11434/api/pull -d '{
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions from the community are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 📄 License
 
@@ -169,7 +169,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Ollama](https://ollama.com) - The amazing LLM runtime
 - [Home Assistant](https://www.home-assistant.io) - The open-source home automation platform
-- All contributors and users who provide feedback and suggestions
+- Community members who contribute feedback and suggestions
 
 ---
 
