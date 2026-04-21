@@ -173,4 +173,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by [Christoph Becelewski](https://github.com/chillkiller)
+Made with ❤️ by [GaRoN ChillKiller](https://github.com/chillkiller)
